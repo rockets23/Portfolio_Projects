@@ -1,7 +1,7 @@
 --CLEANING DATA WITH SQL
 
 SELECT* 
-from Covid_Potfolio_project..NashvilleHousing
+from Housing_Potfolio_project..NashvilleHousing
 
 
 --Standarizing date format 
@@ -17,23 +17,23 @@ set SaleDateConverted = CONVERT(date, SaleDate)
 --Populate Property Address data ( where it is NULL)
 
 SELECT X.ParcelID, X.PropertyAddress, Y.ParcelID, Y.PropertyAddress, ISNULL(X.PropertyAddress, Y.PropertyAddress)
-FROM Covid_Potfolio_project..NashvilleHousing X 
-JOIN Covid_Potfolio_project..NashvilleHousing Y
+FROM Housing_Potfolio_project..NashvilleHousing X 
+JOIN Housing_Potfolio_project..NashvilleHousing Y
 ON X.ParcelID = Y.ParcelID
 AND X.[UniqueID ] <> Y.[UniqueID ]
 WHERE X.PropertyAddress IS NULL
 
 UPDATE X
 SET PropertyAddress = ISNULL(X.PropertyAddress, Y.PropertyAddress)
-FROM Covid_Potfolio_project..NashvilleHousing X 
-JOIN Covid_Potfolio_project..NashvilleHousing Y
+FROM Housing_Potfolio_project..NashvilleHousing X 
+JOIN Housing_Potfolio_project..NashvilleHousing Y
 ON X.ParcelID = Y.ParcelID
 AND X.[UniqueID ] <> Y.[UniqueID ]
 WHERE X.PropertyAddress IS NULL
 
 
 Select PropertyAddress
-from Covid_Potfolio_project..NashvilleHousing
+from Housing_Potfolio_project..NashvilleHousing
 where PropertyAddress is null   --RETURN AN AMPTY TABLE CAUSE ALL THE NULLS HAVE BEEN POPULATED
 
 
@@ -47,7 +47,7 @@ PARSENAME(REPLACE(OwnerAddress, ',', '.'), 2) AS City,
 PARSENAME(REPLACE(OwnerAddress, ',', '.'), 1) AS State
 
 
-from Covid_Potfolio_project..NashvilleHousing
+from Housing_Potfolio_project..NashvilleHousing
 
 
 ALter table NashvilleHousing
@@ -67,15 +67,15 @@ select SoldAsVacant,
 CASE WHEN SoldAsVacant= 'Y' then 'Yes'
      WHEN SoldAsVacant= 'N' THEN 'No'
 	 ELSE SoldAsVacant end AS Corrected
-	 from Covid_Potfolio_project..NashvilleHousing
+	 from Housing_Potfolio_project..NashvilleHousing
 
-	 UPDATE Covid_Potfolio_project..NashvilleHousing
+	 UPDATE Housing_Potfolio_project..NashvilleHousing
 	 SET SoldAsVacant = CASE WHEN SoldAsVacant= 'Y' then 'Yes'
      WHEN SoldAsVacant= 'N' THEN 'No'
 	 ELSE SoldAsVacant end
 
 	 select SoldAsVacant
-	 from Covid_Potfolio_project..NashvilleHousing
+	 from Housing_Potfolio_project..NashvilleHousing
 	 where SoldAsVacant = 'Yes' or SoldAsVacant = 'No'
 
 
@@ -84,7 +84,7 @@ CASE WHEN SoldAsVacant= 'Y' then 'Yes'
 	 
 	 with duplicates AS 
 	( SELECT   SaleDate, OwnerName, PropertyAddress, SalePrice,LegalReference, COUNT(*) as NUM
-FROM Covid_Potfolio_project..NashvilleHousing
+FROM Housing_Potfolio_project..NashvilleHousing
 GROUP BY SaleDate, OwnerName, PropertyAddress, SalePrice, LegalReference
 
 HAVING COUNT(*) > 1 and OwnerName is not null
@@ -96,8 +96,8 @@ from duplicates
 
 -- Delete unused  columns
 
-ALTER TABLE Covid_Potfolio_project..NashvilleHousing
+ALTER TABLE Housing_Potfolio_project..NashvilleHousing
 Drop COLUMN TaxDistrict
 
 select*
-from Covid_Potfolio_project..NashvilleHousing
+from Housing_Potfolio_project..NashvilleHousing
