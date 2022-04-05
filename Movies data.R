@@ -1,7 +1,7 @@
 library (tidyverse)
 library (plyr)
 
-   ###Exploring and Cleaning Data using Rstudio
+   ###Exploring, Cleaning Data and finding correlations using Rstudio
 
 
 movies <- read_csv("movies.csv")  # Reading our CSV file containing Data about movies and putting it in a variable named movies
